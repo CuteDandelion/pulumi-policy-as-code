@@ -12,29 +12,25 @@ Demonstrate the use of policy-as-code to enforce security controls within AWS vi
 Download the repo and do the following:
 
 1. First login with your pulumi personal access token:
-   ```
+   ```bash
    # pulumi will prompt for personal access token
    pulumi login
-
    ```
 
 2. reinitialize the pulumi stack :
-   ```
+   ```bash
    cd pulumi-aws
    pulumi stack init dev
-
    ```
 
 3. Test working policies during stack planning or preview :
-   ```
+   ```bash
    pulumi preview --policy-pack ../custom-policy-pack --policy-pack ../aws-compliance-ISO27001
-
    ```
 
 4. execute stack provisioning (if needed) :
-   ```                         
+   ```bash                         
    pulumi up
-
    ```
 
 # Developing New Custom Policies:
@@ -80,7 +76,8 @@ Download the repo and do the following:
 
   ```
 
-2. Developing unit tests for policies in test/ :
+2. Developing unit tests for policies in test/ 
+
    ```typescript                         
    # Developing Tests
 
@@ -94,13 +91,13 @@ Download the repo and do the following:
         });
     });
 
-   ```
+    ```
 
-3. Run Unit Tests :
-   ```    
+3. Run Unit Tests 
+
+   ```bash
    cd pulumi-policy-as-code/custom-policy-pack/                     
    npm test
-
    ```
 
 # Results 
