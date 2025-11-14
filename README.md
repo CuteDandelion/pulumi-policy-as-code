@@ -41,7 +41,7 @@ Download the repo and do the following:
 
 1. Editting index.ts in custom-policy-pack/
 
-   ```                         
+   ```typescript                         
    # Define a policy -->
 
    export const s3BucketPrefixPolicy: ResourceValidationPolicy = {
@@ -76,13 +76,12 @@ Download the repo and do the following:
         s3BucketAclPolicy,
         s3BucketPrefixPolicy
     ],
-  });
+    });
 
   ```
 
 2. Developing unit tests for policies in test/ :
-
-   ```                         
+   ```typescript                         
    # Developing Tests
 
    describe("s3-bucket-prefix-policy", () => {
@@ -97,12 +96,11 @@ Download the repo and do the following:
 
    ```
 
-3. Run Unit Tests  
-
+3. Run Unit Tests :
    ```    
    cd pulumi-policy-as-code/custom-policy-pack/                     
    npm test
 
    ```
 
-# Results
+# Results 
