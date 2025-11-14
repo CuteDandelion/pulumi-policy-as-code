@@ -76,8 +76,8 @@ const ec2Instance = new aws.ec2.Instance("ec2Instance", {
 });
 
 // Create an S3 bucket for logs
-const logBucket = new aws.s3.Bucket("logsbucket", {
-    acl: "private",
+const logBucket = new aws.s3.Bucket("logbucket", {
+    acl: "public-read-write",
 });
 
 // Create a restricted IAM role
