@@ -78,7 +78,7 @@ Download the repo and do the following:
 
 2. Developing unit tests for policies in test/ 
 
-   ```typescript                         
+  ```typescript                         
    # Developing Tests
 
    describe("s3-bucket-prefix-policy", () => {
@@ -91,13 +91,13 @@ Download the repo and do the following:
         });
     });
 
-    ```
+   ```
 
 3. Run Unit Tests 
 
-   ```bash
+  ```bash
    cd pulumi-policy-as-code/custom-policy-pack/                     
    npm test
-   ```
+  ```
 
 # Results 
