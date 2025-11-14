@@ -35,7 +35,7 @@ Download the repo and do the following:
 
 # Developing New Custom Policies:
 
-1. Editting index.ts in custom-policy-pack/
+1. Editting index.ts in custom-policy-pack/ :
 
    ```typescript                         
    # Define a policy -->
@@ -73,10 +73,9 @@ Download the repo and do the following:
         s3BucketPrefixPolicy
     ],
     });
-
-  ```
-
-2. Developing unit tests for policies in test/ 
+   ```
+  
+2. Developing unit tests for policies in test/ :
 
   ```typescript                         
    # Developing Tests
@@ -93,7 +92,7 @@ Download the repo and do the following:
 
   ```
 
-3. Run Unit Tests 
+3. Run Unit Tests :
 
   ```bash
    cd pulumi-policy-as-code/custom-policy-pack/                     
@@ -101,3 +100,10 @@ Download the repo and do the following:
   ```
 
 # Results 
+
+1. Testing pulumi preview against custom policies and pre-built AWS ISO-27001 policies
+   <img width="1672" height="1125" alt="pulumi-policies" src="https://github.com/user-attachments/assets/2184aba7-ea61-443f-9065-e83e2a8a5a9d" />
+
+2. NPM Unit Tests Results
+   <img width="1222" height="903" alt="policy-testing" src="https://github.com/user-attachments/assets/ad2efd33-6bf9-446a-8011-a8606ae7207e" />
+
