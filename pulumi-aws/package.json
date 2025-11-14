@@ -1,0 +1,13 @@
+{
+  "name": "policy-as-code",
+  "description": "Create an AWS project that deploys: A VPC with private/public subnets An EC2 instance in the private subnet An S3 bucket for logs A restricted IAM role",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "dependencies": {
+    "@pulumi/pulumi": "*",
+    "@pulumi/aws": "6.13.3"
+  }
+}

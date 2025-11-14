@@ -1,0 +1,10 @@
+name: policy-as-code
+runtime:
+  name: nodejs
+  options:
+    packagemanager: npm
+description: 'Create an AWS project that deploys: A VPC with private/public subnets An EC2 instance in the private subnet An S3 bucket for logs A restricted IAM role'
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: https://www.pulumi.com/ai/api/project/a96357a9-d0c7-406f-99d0-b6c5f5fb50e2.zip
