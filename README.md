@@ -40,6 +40,7 @@ Download the repo and do the following:
 # Developing New Custom Policies:
 
 1. Editting index.ts in custom-policy-pack/
+
    ```                         
    # Define a policy -->
 
@@ -76,9 +77,11 @@ Download the repo and do the following:
         s3BucketPrefixPolicy
     ],
   });
+
   ```
 
 2. Developing unit tests for policies in test/ :
+
    ```                         
    # Developing Tests
 
@@ -95,7 +98,8 @@ Download the repo and do the following:
    ```
 
 3. Run Unit Tests  
-    ```    
+
+   ```    
    cd pulumi-policy-as-code/custom-policy-pack/                     
    npm test
 
