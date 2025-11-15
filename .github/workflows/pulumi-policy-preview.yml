@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: pulumi-policy-as-code/pulumi-aws
+        working-directory: ./pulumi-aws
 
     steps:
       - name: Checkout code
@@ -39,9 +39,9 @@ jobs:
  
       - name: installing pulumi policies dependencies
         run: |
-          cd pulumi-policy-as-code/custom-policy-pack
+          cd ../custom-policy-pack
           npm install
-          cd pulumi-policy-as-code/aws-compliance-ISO27001
+          cd ../aws-compliance-ISO27001
           npm install
 
 
