@@ -40,10 +40,10 @@ jobs:
       - name: pulumi preview with policy check
         uses: pulumi/actions@v6
         with:
-          command: | 
-               preview \ 
-                  --policy-pack ../custom-policy-pack \
-                  --policy-pack ../aws-compliance-ISO17001
+          command: preview
+          policyPacks: |
+             ../custom-policy-pack
+             ../aws-compliance-ISO17001
           stack-name: dev # When using an individual account, only use stack-name.
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
