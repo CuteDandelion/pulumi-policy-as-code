@@ -28,7 +28,7 @@ jobs:
       - name: Installing Node.js
         uses: actions/setup-node@v4
         with:
-          node-version-file: ./package.json
+          node-version-file: pulumi-aws/package.json
   
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
