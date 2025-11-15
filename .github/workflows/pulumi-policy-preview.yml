@@ -14,6 +14,9 @@ permissions:
 jobs:
   pulumi-policy-preview:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./pulumi-aws
 
     steps:
       - name: Checkout code
@@ -33,12 +36,9 @@ jobs:
 
       - name: installing dependencies
         run: npm install
-        working-directory: ./pulumi-aws
-
 
       - name: pulumi preview with policy check
         uses: pulumi/actions@v6
-        working-directory: ./pulumi-aws
         with:
           command: preview \ 
                      --policy-pack ../custom-policy-pack \
