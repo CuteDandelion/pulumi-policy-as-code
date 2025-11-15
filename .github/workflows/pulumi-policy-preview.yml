@@ -37,13 +37,34 @@ jobs:
       - name: installing dependencies
         run: npm install
 
-      - name: pulumi preview with policy check
-        uses: pulumi/actions@v6
+      - name: Set up Python
+        uses: actions/setup-python@v2
         with:
-          command: preview
-          policyPacks: |
-             ../custom-policy-pack
-             ../aws-compliance-ISO17001
-          stack-name: dev # When using an individual account, only use stack-name.
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install pulumi pulumi_aws
+
+
+      - name: Login to default pulumi cloud for state management
+        run: |
+          pulumi login --non-interactive
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+       
+
+      - name: pulumi stack select
+        run: |
+          pulumi stack select ${{ secrets.PULUMI_STACK }}
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+
+      - name: pulumi preview with policy checks
+        run: |
+          pulumi preview \
+             --policy-pack ../custom-policy-packs \
+             --policy-pack ../aws-compliance-ISO27001
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+
