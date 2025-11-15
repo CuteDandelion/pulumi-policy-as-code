@@ -63,7 +63,7 @@ jobs:
       - name: pulumi preview with policy checks
         run: |
           pulumi preview \
-             --policy-pack ../custom-policy-packs \
+             --policy-pack ../custom-policy-pack \
              --policy-pack ../aws-compliance-ISO27001
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
