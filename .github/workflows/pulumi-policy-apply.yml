@@ -1,4 +1,4 @@
-name: Pulumi-Policy-Preview
+name: Pulumi-Policy-Apply
 
 on:
   push:
