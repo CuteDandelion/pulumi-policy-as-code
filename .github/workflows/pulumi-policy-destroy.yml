@@ -1,0 +1,86 @@
+name: Pulumi-Policy-Destroy
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  pulumi-policy-destroy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./pulumi-aws
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+       
+      - name: Installing Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: pulumi-aws/package.json
+  
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: installing pulumi infra dependencies
+        run: npm install
+ 
+      - name: installing pulumi policies dependencies
+        run: |
+          cd ../custom-policy-pack
+          npm install
+          cd ../aws-compliance-ISO27001
+          npm install
+
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install pulumi pulumi_aws
+
+
+      - name: Login to default pulumi cloud for state management
+        run: |
+          pulumi login --non-interactive
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+       
+
+      - name: pulumi stack select
+        run: |
+          pulumi stack select ${{ secrets.PULUMI_STACK }}
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+
+      - name: pulumi preview with policy checks
+        run: |
+          pulumi preview \
+             --policy-pack ../custom-policy-pack \
+             --policy-pack ../aws-compliance-ISO27001
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+        continue-on-error: false
+  
+      - name: pulumi destroy infra
+        run: |
+          pulumi down --non-interactive --yes
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+
+
