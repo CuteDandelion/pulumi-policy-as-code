@@ -41,7 +41,7 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
 
       - name: Build images with Docker Compose
-        run: docker-compose -f docker-compose.ci.yml build
+        run: docker-compose -f docker-compose.ci.yaml build
 
       - name: Tag and push images to ECR
         env:
