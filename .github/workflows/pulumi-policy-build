@@ -9,12 +9,13 @@ env:
   AWS_REGION: us-east-1  # Replace with your AWS region (e.g., from Terraform var.region)
   ECR_REPOSITORY: dev-llmops-repo-bc8c6f8  # Replace with your ECR repository name
 
+permissions:
+  id-token: write  # For OIDC authentication
+  contents: read
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write  # For OIDC authentication
-      contents: read
 
     steps:
       - name: Checkout code
