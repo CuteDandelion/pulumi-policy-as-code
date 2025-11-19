@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  llmOps:
+    image: aws-pulumi/langchain-server:latest
+    build:
+      context: ./langchain-llmops
+    restart: always
+    ports:
+      - "80:80"

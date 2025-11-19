@@ -1,0 +1,53 @@
+name: Build and Push Docker Image to AWS ECR
+
+on:
+  push:
+    branches:
+      - main  # Trigger on pushes to the main branch; customize as needed
+
+env:
+  AWS_REGION: us-east-1  # Replace with your AWS region (e.g., from Terraform var.region)
+  ECR_REPOSITORY: dev-llmops-repo-bc8c6f8  # Replace with your ECR repository name
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # For OIDC authentication
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-region: ${{ secrets.AWS_REGION }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx  # Needed for multi-platform builds if applicable
+        uses: docker/setup-buildx-action@v3
+
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+
+      - name: Build images with Docker Compose
+        run: docker-compose -f docker-compose.ci.yml build
+
+      - name: Tag and push images to ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: latest  # Or use ${{ github.sha }} for commit-based tags
+        run: |
+          # Example for a single service; repeat or loop for multiple
+          SERVICE_NAME=aws-pulumi/langchain-server  # Replace with your service name from compose file
+          docker tag $SERVICE_NAME:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
