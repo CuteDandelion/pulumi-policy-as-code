@@ -1,6 +1,7 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 import * as eks from "@pulumi/eks";
+import * as k8s from "@pulumi/kubernetes";
 
 // Define configuration variables
 const environment = "dev";
@@ -194,5 +195,27 @@ const ecrRepo = new aws.ecr.Repository(`${environment}-llmops-repo`, {
 
 // Export outputs
 export const kubeconfig = cluster.kubeconfig;
+
+// Create a Kubernetes provider instance using the kubeconfig
+const k8sProvider = new k8s.Provider("k8s-provider", {
+    kubeconfig: kubeconfig.apply(JSON.stringify),
+});
+
+// Install ArgoCD using Helm
+const argoCd = new k8s.helm.v3.Chart("argo-cd", {
+    chart: "argo-cd",
+    version: "8.5.0",
+    fetchOpts: { repo: "https://argoproj.github.io/argo-helm" },
+    values: {},
+}, { provider: k8sProvider });
+
+// Export ArgoCD server URL
+export const argoCdUrl = argoCd.getResource("v1/Service", "argo-cd-server").status.apply(status => status.loadBalancer.ingress[0].hostname);
+
+// Retrieve the ArgoCD admin password from the secret
+const argoCdSecret = argoCd.getResource("v1/Secret", "argo-cd-initial-admin-secret");
+export const argoCdAdminPassword = argoCdSecret.data.apply(data => Buffer.from(data["password"], "base64").toString("utf-8"));
+
+
 export const clusterEndpoint = cluster.eksCluster.endpoint;
 export const ecrRepositoryUrl = ecrRepo.repositoryUrl;

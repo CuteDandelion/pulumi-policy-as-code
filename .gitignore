@@ -1,5 +1,4 @@
-
 /bin/
-/node_modules/
+pulumi-aws/node_modules/
 langchain-llmops/__pycache__/
 package-lock.json
