@@ -206,16 +206,14 @@ const argoCd = new k8s.helm.v3.Chart("argo-cd", {
     chart: "argo-cd",
     version: "8.5.0",
     fetchOpts: { repo: "https://argoproj.github.io/argo-helm" },
-    values: {},
+    values: {
+        server: {
+            service: {
+                type: "LoadBalancer"
+            }
+        }
+    },
 }, { provider: k8sProvider });
-
-// Export ArgoCD server URL
-export const argoCdUrl = argoCd.getResource("v1/Service", "argo-cd-server").status.apply(status => status.loadBalancer.ingress[0].hostname);
-
-// Retrieve the ArgoCD admin password from the secret
-const argoCdSecret = argoCd.getResource("v1/Secret", "argo-cd-initial-admin-secret");
-export const argoCdAdminPassword = argoCdSecret.data.apply(data => Buffer.from(data["password"], "base64").toString("utf-8"));
-
 
 export const clusterEndpoint = cluster.eksCluster.endpoint;
 export const ecrRepositoryUrl = ecrRepo.repositoryUrl;
