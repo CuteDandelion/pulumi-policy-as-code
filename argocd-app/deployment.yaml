@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: langchain
-        image: ${your-ecr-repo-url}:latest  # Replace with your ECR URL
+        image: 311844031584.dkr.ecr.us-east-1.amazonaws.com/dev-llmops-repo-8cb299c:latest  # Replace with your ECR URL
         ports:
         - containerPort: 80
         resources:
@@ -24,3 +24,24 @@ spec:
           limits:
             cpu: "1"
             memory: "1Gi"
+        env:
+        - name: AWS_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: llmops-credentials
+              key: AWS_ACCESS_KEY
+        - name: AWS_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: llmops-credentials
+              key: AWS_SECRET_KEY
+        - name: AWS_REGION  # Example for Bedrock-related var; add more as needed
+          valueFrom:
+            secretKeyRef:
+              name: llmops-credentials
+              key: AWS_REGION
+        - name: AWS_BEARER_TOKEN_BEDROCK  # Example for Bedrock-related var; add more as needed
+          valueFrom:
+            secretKeyRef:
+              name: llmops-credentials
+              key: AWS_BEARER_TOKEN_BEDROCK
