@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: langchain-app
+spec:
+  replicas: 2  # Start with 2 pods for scalability
+  selector:
+    matchLabels:
+      app: langchain
+  template:
+    metadata:
+      labels:
+        app: langchain
+    spec:
+      containers:
+      - name: langchain
+        image: ${your-ecr-repo-url}:latest  # Replace with your ECR URL
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: "500m"
+            memory: "512Mi"
+          limits:
+            cpu: "1"
+            memory: "1Gi"

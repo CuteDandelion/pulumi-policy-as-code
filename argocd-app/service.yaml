@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: langchain-service
+spec:
+  type: LoadBalancer  # Change to LoadBalancer for public access
+  selector:
+    app: langchain
+  ports:
+  - port: 80
+    targetPort: 80
