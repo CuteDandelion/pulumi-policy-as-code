@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: llmops
+  namespace: argocd
+spec:
+  description: LLMOps project
+  sourceRepos:
+  - 'https://github.com/CuteDandelion/pulumi-policy-as-code.git'
+  destinations:
+  - namespace: default
+    server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+  - group: ''
+    kind: '*'
